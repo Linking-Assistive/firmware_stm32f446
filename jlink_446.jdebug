@@ -29,9 +29,12 @@ void OnProjectLoad (void) {
   Project.SetTargetIF ("SWD");
   Project.SetTIFSpeed ("4 MHz");
   Project.AddSvdFile ("$(InstallDir)/Config/CPU/Cortex-M4F.svd");
+  Project.AddSvdFile ("STM32F446.svd");
+
   //
   // User settings
   //
+  Edit.SysVar (VAR_HSS_SPEED, FREQ_5_KHZ);
   File.Open ("$(ProjectDir)/build/stm32f446-audio.elf");
 }
 

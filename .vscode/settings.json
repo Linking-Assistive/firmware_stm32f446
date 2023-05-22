@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "i2s.h": "c",
+    "main.h": "c",
+    "stm32f4xx_hal.h": "c",
+    "audio_sample.h": "c",
+    "usart.h": "c",
+    "stdlib.h": "c"
+  }
+}

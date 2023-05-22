@@ -28,3 +28,5 @@ for d in dir_path:
 # Run clang-format on each file with the specified stylesheet
 for file_path in files_to_format:
     subprocess.run([clang_format_path, "-i", "-style=file", "-assume-filename=" + file_path, "-fallback-style=none", file_path])
+
+print("Done formatting!")

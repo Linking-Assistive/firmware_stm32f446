@@ -24,10 +24,11 @@
 #include "i2s.h"
 #include "tim.h"
 #include "usart.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "audio_sample.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,8 +101,10 @@ int main(void)
   MX_TIM8_Init();
   MX_TIM12_Init();
   MX_USART3_UART_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
+  audioSampleStartEverySample_IT();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,8 +113,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
-    HAL_Delay(100);
+    HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+    HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
@@ -163,7 +166,6 @@ void SystemClock_Config(void)
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK) {
     Error_Handler();
   }
-  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_1);
 }
 
 /**
