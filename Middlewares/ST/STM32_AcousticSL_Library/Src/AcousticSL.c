@@ -12,13 +12,16 @@
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
 * If no LICENSE file comes with this software, it is provided AS-IS.
-*                        
+*
 *
 ******************************************************************************
 */
 
+#include "stm32f4xx.h"
 /* Includes ------------------------------------------------------------------*/
+
 #include "libSoundSourceLoc.c"
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
@@ -29,14 +32,14 @@
 /* Functions Definition ------------------------------------------------------*/
 
 /** @addtogroup MIDDLEWARES
-  * @{
-  */
+ * @{
+ */
 
 /** @defgroup AcousticSL AcousticSL
-  * @{
-  */
+ * @{
+ */
 
-  /** @defgroup AcousticSL_Exported_Functions AcousticSL Exported Functions
+/** @defgroup AcousticSL_Exported_Functions AcousticSL Exported Functions
  * @{
  */
 
@@ -44,11 +47,11 @@
  * @brief  Library initialization.
  * @param  pHandler: AcousticSL_Handler_t filled with desired parameters.
  * @retval 0 if everything is fine.
- *         different from 0 if erroneous parameters have been passed to the Init function and the default value has been used.
- *         The specific error can be recognized by checking the relative bit in the returned word.
+ *         different from 0 if erroneous parameters have been passed to the Init function and the default value has been
+ * used. The specific error can be recognized by checking the relative bit in the returned word.
  */
-uint32_t AcousticSL_Init(AcousticSL_Handler_t * pHandler)
-{   
+uint32_t AcousticSL_Init(AcousticSL_Handler_t* pHandler)
+{
   return libSoundSourceLoc_Init(pHandler);
 }
 
@@ -64,12 +67,13 @@ uint32_t AcousticSL_Init(AcousticSL_Handler_t * pHandler)
  *         representing 1 ms of data acquired by the fourth channel.
  * @param  pHandler: pointer to the handler of the curent Source Localization instance running.
  * @retval 1 if data collection is finished and libSoundSourceLoc_Process must be called, 0 otherwise.
- * @note   Input function reads samples skipping the required number of values depending on the Ptr_Mx_Channels configuration.
+ * @note   Input function reads samples skipping the required number of values depending on the Ptr_Mx_Channels
+ * configuration.
  * @note   pM3 and pM4 are ignored in the case the library is setup for using 2 channels.
-*/
-uint32_t AcousticSL_Data_Input(void *pM1, void *pM2, void *pM3, void *pM4, AcousticSL_Handler_t * pHandler)
+ */
+uint32_t AcousticSL_Data_Input(void* pM1, void* pM2, void* pM3, void* pM4, AcousticSL_Handler_t* pHandler)
 {
-return libSoundSourceLoc_Data_Input((int16_t *)pM1, (int16_t *)pM2, (int16_t *)pM3, (int16_t *)pM4, pHandler);
+  return libSoundSourceLoc_Data_Input((int16_t*)pM1, (int16_t*)pM2, (int16_t*)pM3, (int16_t*)pM4, pHandler);
 }
 
 /**
@@ -77,21 +81,21 @@ return libSoundSourceLoc_Data_Input((int16_t *)pM1, (int16_t *)pM2, (int16_t *)p
  * @param  Estimated_Angle: pointer to the int32_t variable that will contain the computed value.
  * @param  pHandler: pointer to the handler of the current Source Localization instance running.
  * @retval 0 if everything is ok, 1 otherwise
-*/
-uint32_t AcousticSL_Process(int32_t * Estimated_Angle, AcousticSL_Handler_t * pHandler)
+ */
+uint32_t AcousticSL_Process(int32_t* Estimated_Angle, AcousticSL_Handler_t* pHandler)
 {
   return libSoundSourceLoc_Process(Estimated_Angle, pHandler);
 }
 
 /**
- * @brief  Library setup function, it sets the values for threshold and resolution. It can be called at runtime to change
- *         dynamic parameters.
+ * @brief  Library setup function, it sets the values for threshold and resolution. It can be called at runtime to
+ * change dynamic parameters.
  * @note   Only the threshold and resolution are evaluated by the SetConfig function.
  * @retval 0 if everything is fine.
- *         different from 0 if erroneous parameters have been passed to the Init function and the default value has been used.
- *         The specific error can be recognized by checking the relative bit in the returned word.
-*/
-uint32_t AcousticSL_setConfig(AcousticSL_Handler_t * pHandler, AcousticSL_Config_t * pConfig)
+ *         different from 0 if erroneous parameters have been passed to the Init function and the default value has been
+ * used. The specific error can be recognized by checking the relative bit in the returned word.
+ */
+uint32_t AcousticSL_setConfig(AcousticSL_Handler_t* pHandler, AcousticSL_Config_t* pConfig)
 {
   return libSoundSourceLoc_setConfig(pHandler, pConfig);
 }
@@ -101,8 +105,8 @@ uint32_t AcousticSL_setConfig(AcousticSL_Handler_t * pHandler, AcousticSL_Config
  * @param  pHandler: pointer to the handler of the current Source Localization instance running.
  * @param  pConfig: pointer to the dynamic parameters handler that will be filled with the current library configuration
  * @retval 0 if everything is fine.
-*/
-uint32_t AcousticSL_getConfig(AcousticSL_Handler_t * pHandler, AcousticSL_Config_t * pConfig)
+ */
+uint32_t AcousticSL_getConfig(AcousticSL_Handler_t* pHandler, AcousticSL_Config_t* pConfig)
 {
   return libSoundSourceLoc_getConfig(pHandler, pConfig);
 }
@@ -113,7 +117,7 @@ uint32_t AcousticSL_getConfig(AcousticSL_Handler_t * pHandler, AcousticSL_Config
  * @param  pHandler: AcousticSL_Handler_t filled with desired parameters.
  * @retval 0 if everything is fine.
  */
-uint32_t AcousticSL_getMemorySize(AcousticSL_Handler_t * pHandler)
+uint32_t AcousticSL_getMemorySize(AcousticSL_Handler_t* pHandler)
 {
   return libSoundSourceLoc_getMemorySize(pHandler);
 }
@@ -122,21 +126,20 @@ uint32_t AcousticSL_getMemorySize(AcousticSL_Handler_t * pHandler)
  * @brief  To be used to retrieve version information.
  * @param  version char array to be filled with the current library version
  * @retval 0 if everything is fine.
-*/
-uint32_t AcousticSL_GetLibVersion(char *version)
+ */
+uint32_t AcousticSL_GetLibVersion(char* version)
 {
   return libSoundSourceLoc_GetLibVersion(version);
 }
 
 /**
-* @}
-*/
+ * @}
+ */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /**
-  * @}
-  */
-
+ * @}
+ */

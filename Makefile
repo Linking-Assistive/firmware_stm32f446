@@ -42,6 +42,8 @@ Core/Src/stm32f4xx_hal_msp.c \
 Core/Src/audio_sample.c \
 Core/Src/syscalls.c \
 Core/Src/sysmem.c \
+Core/Src/sound_localization.c \
+Middlewares/ST/STM32_AcousticSL_Library/Src/AcousticSL.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
@@ -125,7 +127,8 @@ AS_DEFS =
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
--DSTM32F446xx
+-DSTM32F446xx \
+-DARM_MATH_CM4
 
 
 # AS includes
@@ -138,10 +141,12 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
+-IDrivers/CMSIS/DSP/Include \
 -IUSB_DEVICE/App \
 -IUSB_DEVICE/Target \
 -IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
--IMiddlewares/ST/STM32_USB_Device_Library/Class/AUDIO/Inc
+-IMiddlewares/ST/STM32_USB_Device_Library/Class/AUDIO/Inc \
+-IMiddlewares/ST/STM32_AcousticSL_Library/Inc
 
 
 # compile gcc flags
@@ -165,8 +170,15 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT = STM32F446RETx_FLASH.ld
 
 # libraries
-LIBS = -lc -lm -lnosys 
-LIBDIR = 
+LIBS = \
+-lc \
+-lm \
+-lnosys \
+-larm_cortexM4lf_math
+
+LIBDIR = \
+-LDrivers/CMSIS/Lib/GCC
+
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all

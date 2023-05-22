@@ -5,6 +5,8 @@
     "stm32f4xx_hal.h": "c",
     "audio_sample.h": "c",
     "usart.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "stm32f4xx_hal_conf.h": "c",
+    "stm32f4xx.h": "c"
   }
 }
