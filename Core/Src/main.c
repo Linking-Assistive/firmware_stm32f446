@@ -29,6 +29,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "audio_sample.h"
+#include "sound_localization.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -104,7 +105,8 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
-  audioSampleStartEverySample_IT();
+  SL_Init();
+  audioStartRecord_DMA();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -199,14 +201,18 @@ void PeriphCommonClock_Config(void)
  * @brief  This function is executed in case of error occurrence.
  * @retval None
  */
-void Error_Handler(void)
+__attribute__((optimize("O0"))) void Error_Handler()
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1) {
+
+  uint32_t tick = 0;
+  for (;;) {
+    ++tick;
+    if (tick >= 4000000UL) {
+      tick = 0;
+      HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
+    }
   }
-  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef USE_FULL_ASSERT

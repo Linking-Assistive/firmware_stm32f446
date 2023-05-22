@@ -1,6 +1,11 @@
 #ifndef __AUDIO_SAMPLE_H__
 #define __AUDIO_SAMPLE_H__
 
-void audioSampleStartEverySample_IT(void);
+#define AUDIO_IN_SAMPLING_FREQUENCY 16000
+#define AUDIO_IN_CHANNELS           2
+#define AUDIO_IN_MS_PER_PACKET      1
+#define AUDIO_SAMPLE_PER_PACKET     (AUDIO_IN_SAMPLING_FREQUENCY / 1000 * AUDIO_IN_MS_PER_PACKET)  // 256
+
+void audioStartRecord_DMA(void);
 
 #endif
