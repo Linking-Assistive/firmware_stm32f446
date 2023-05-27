@@ -18,7 +18,10 @@
       "group": {
         "kind": "build",
         "isDefault": true
-      }
+      },
+      "dependsOn": [
+        "format-code"
+      ]
     }
   ]
 }

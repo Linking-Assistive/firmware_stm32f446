@@ -16,15 +16,15 @@ uint32_t SL_Init(void)
   uint32_t error_value = 0;
   /*Setup Source Localization static parameters*/
   libSoundSourceLoc_Handler_Instance.channel_number = 2;
-  libSoundSourceLoc_Handler_Instance.M12_distance = 2400;
-  libSoundSourceLoc_Handler_Instance.M34_distance = 2400;  // Unused
+  libSoundSourceLoc_Handler_Instance.M12_distance = ACOUSTIC_SL_M12_DISTANCE;
+  libSoundSourceLoc_Handler_Instance.M34_distance = ACOUSTIC_SL_M12_DISTANCE;  // Unused
   libSoundSourceLoc_Handler_Instance.sampling_frequency = 16000;
   libSoundSourceLoc_Handler_Instance.algorithm = ACOUSTIC_SL_ALGORITHM_BMPH;
   libSoundSourceLoc_Handler_Instance.ptr_M1_channels = 2;
   libSoundSourceLoc_Handler_Instance.ptr_M2_channels = 2;
   libSoundSourceLoc_Handler_Instance.ptr_M3_channels = 2;
   libSoundSourceLoc_Handler_Instance.ptr_M4_channels = 2;
-  libSoundSourceLoc_Handler_Instance.samples_to_process = 512;
+  libSoundSourceLoc_Handler_Instance.samples_to_process = 256;
   AcousticSL_getMemorySize(&libSoundSourceLoc_Handler_Instance);
   libSoundSourceLoc_Handler_Instance.pInternalMemory =
       (uint32_t*)malloc(libSoundSourceLoc_Handler_Instance.internal_memory_size);
