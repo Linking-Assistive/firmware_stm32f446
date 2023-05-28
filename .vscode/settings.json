@@ -11,6 +11,7 @@
     "sound_localization.h": "c",
     "arm_math.h": "c",
     "segger_sysview_confdefaults.h": "c",
-    "segger.h": "c"
+    "segger.h": "c",
+    "acoustic_sl.h": "c"
   }
 }

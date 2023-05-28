@@ -18,8 +18,8 @@ uint32_t SL_Init(void)
   uint32_t error_value = 0;
   /*Setup Source Localization static parameters*/
   libSoundSourceLoc_Handler_Instance.channel_number = 2;
-  libSoundSourceLoc_Handler_Instance.M12_distance = ACOUSTIC_SL_M12_DISTANCE;
-  libSoundSourceLoc_Handler_Instance.M34_distance = ACOUSTIC_SL_M12_DISTANCE;  // Unused
+  libSoundSourceLoc_Handler_Instance.M12_distance = 16000;
+  libSoundSourceLoc_Handler_Instance.M34_distance = 16000;  // Unused
   libSoundSourceLoc_Handler_Instance.sampling_frequency = 16000;
   libSoundSourceLoc_Handler_Instance.algorithm = ACOUSTIC_SL_ALGORITHM_BMPH;
   libSoundSourceLoc_Handler_Instance.ptr_M1_channels = 2;
@@ -77,70 +77,126 @@ void SL_Process_callback(void)
   // }
 }
 
-float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, size_t dataSize)
+static float smallest_angular_distance(float angle1, float angle2)
+{
+  float distance = fmodf(fabsf(angle1 - angle2), 360.0f);
+
+  if (distance > 180.0f) {
+    distance = 360.0f - distance;
+  }
+
+  return distance;
+}
+
+// wrap angle to [0, 360]
+static float wrap_angle(float angle)
+{
+  if (angle < 0.0f) {
+    angle += 360.0f;
+  } else if (angle >= 360.0f) {
+    angle -= 360.0f;
+  }
+
+  return angle;
+}
+
+float32_t angle_12, angle_23, angle_31;
+float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, int16_t* M3_data, size_t dataSize)
 {
   int32_t tau, k;
-  volatile int32_t delta_t13 = 0;
+  int32_t delta_t12 = 0, delta_t23 = 0, delta_t31 = 0;
+  int64_t MAX12 = 0, MAX23 = 0, MAX31 = 0;
 
   int64_t correlation = 0;
-  int64_t MAX13 = 0;
 
-  float32_t angle = 0.0;
+  float32_t D12[2], D23[2], D31[2];  // Direction in the global coordinate system
 
-  float32_t distance = ACOUSTIC_SL_M12_DISTANCE / 10000.0f;
-  int32_t M12_TAUD = (int32_t)(distance * (float32_t)AUDIO_IN_SAMPLING_FREQUENCY / (float32_t)343.1f);
+  int32_t M12_TAUD = (int32_t)(ACOUSTIC_SL_M12_DISTANCE * (float32_t)AUDIO_IN_SAMPLING_FREQUENCY / 343.1f);
+  int32_t M23_TAUD = (int32_t)(ACOUSTIC_SL_M23_DISTANCE * (float32_t)AUDIO_IN_SAMPLING_FREQUENCY / 343.1f);
+  int32_t M31_TAUD = (int32_t)(ACOUSTIC_SL_M31_DISTANCE * (float32_t)AUDIO_IN_SAMPLING_FREQUENCY / 343.1f);
 
-  volatile int64_t history[15];
-
-  // MAX13 = 0x80000000U;  //-inf
   for (tau = -M12_TAUD; tau <= M12_TAUD; tau++) {
     correlation = 0;
     for (k = M12_TAUD; k < dataSize - M12_TAUD; k++) {
       correlation += (int32_t)M2_data[k] * (int32_t)M1_data[k + tau];
     }
-    history[tau + M12_TAUD] = correlation;
-    if (correlation > MAX13) {
-      MAX13 = correlation;
-      delta_t13 = tau;
+    if (correlation > MAX12) {
+      MAX12 = correlation;
+      delta_t12 = tau;
     }
   }
 
-  // if (SLocInternal->Mic_Number == 4U) {
-  //   MAX24 = 0x80000000U;  //-inf
-  //   for (tau = -SLocInternal->M34_TAUD; tau <= SLocInternal->M34_TAUD; tau++) {
-  //     correlation = 0;
-  //     for (k = SLocInternal->M34_TAUD; k < ((int32_t)SLocInternal->Sample_Number_To_Process -
-  //     SLocInternal->M34_TAUD);
-  //          k++) {
-  //       correlation =
-  //           correlation + (((uint32_t)((int16_t*)(SLocInternal->M4_Data))[((SLocInternal->Buffer_State - 1U) *
-  //                                                                          SLocInternal->Sample_Number_To_Process) +
-  //                                                                         (uint32_t)k] *
-  //                           (uint32_t)((int16_t*)(SLocInternal->M3_Data))[((SLocInternal->Buffer_State - 1U) *
-  //                                                                          SLocInternal->Sample_Number_To_Process) +
-  //                                                                         (uint32_t)k + (uint32_t)tau]) /
-  //                          256U);
-  //     }
-  //     if (correlation > MAX24) {
-  //       MAX24 = correlation;
-  //       delta_t24 = (float32_t)tau;
-  //     }
-  //   }
-  // }
+  for (tau = -M23_TAUD; tau <= M23_TAUD; tau++) {
+    correlation = 0;
+    for (k = M23_TAUD; k < dataSize - M23_TAUD; k++) {
+      correlation += (int32_t)M3_data[k] * (int32_t)M2_data[k + tau];
+    }
+    if (correlation > MAX23) {
+      MAX23 = correlation;
+      delta_t23 = tau;
+    }
+  }
 
-  angle = (float32_t)(delta_t13 + M12_TAUD) * 90.0f / (float32_t)M12_TAUD;
+  for (tau = -M31_TAUD; tau <= M31_TAUD; tau++) {
+    correlation = 0;
+    for (k = M31_TAUD; k < dataSize - M31_TAUD; k++) {
+      correlation += (int32_t)M1_data[k] * (int32_t)M3_data[k + tau];
+    }
+    if (correlation > MAX31) {
+      MAX31 = correlation;
+      delta_t31 = tau;
+    }
+  }
 
-  // if (SLocInternal->Mic_Number == 2U) {
-  //   test = (delta_t13 + (float32_t)SLocInternal->M12_TAUD) * (180.0f / ((float32_t)SLocInternal->M12_TAUD * 2.0f));
-  // } else if (SLocInternal->Mic_Number == 4U) {
-  //   test = (float32_t)atan2(delta_t13, delta_t24);
-  //   test = test * (360.0f / (3.14f * 2.0f));
-  //   if (test < 0.0f) {
-  //     test += 360.0f; /* in [0 360] -> TODO: Optimize the whole angle computation from the maximum phase index*/
-  //   }
-  // } else {
-  //   /* no other use cases are handled */
-  // }
+  angle_12 = (float32_t)(delta_t12 + M12_TAUD) * 90.0f / (float32_t)M12_TAUD;
+  angle_23 = (float32_t)(delta_t23 + M23_TAUD) * 90.0f / (float32_t)M23_TAUD;
+  angle_31 = (float32_t)(delta_t31 + M31_TAUD) * 90.0f / (float32_t)M31_TAUD;
 
-  return angle;
+  D12[0] = angle_12 + 26.85f;
+  D12[1] = 26.85f - angle_12;
+
+  D23[0] = angle_23 + 153.15f;
+  D23[1] = 153.15f - angle_23;
+
+  D31[0] = angle_31 - 90;
+  D31[1] = -90 - angle_31;
+
+  float MIN_DISAGREEMENT = 10000000;
+  float disagreement = 0;
+  int8_t configuration[3] = {0, 0, 0};
+
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 2; j++) {
+      for (int k = 0; k < 2; k++) {
+        disagreement = smallest_angular_distance(D12[i], D23[j]) + smallest_angular_distance(D23[j], D31[k]) +
+                       smallest_angular_distance(D31[k], D12[i]);
+        if (disagreement < MIN_DISAGREEMENT) {
+          MIN_DISAGREEMENT = disagreement;
+
+          configuration[0] = i;
+          configuration[1] = j;
+          configuration[2] = k;
+        }
+      }
+    }
+  }
+
+  int8_t select = 0;
+  float MAX_DEVIATION = 0;
+  float deviation = 0;
+  float L[] = {angle_12, angle_23, angle_31};
+  float D[] = {D12[configuration[0]], D23[configuration[1]], D31[configuration[2]]};
+
+  for (int i = 0; i < 3; i++) {
+    if (configuration[i] == 0) {
+      deviation = smallest_angular_distance(L[i], 90.0f);
+
+      if (deviation > MAX_DEVIATION) {
+        MAX_DEVIATION = deviation;
+        select = i;
+      }
+    }
+  }
+
+  return wrap_angle(D[select]);
 }

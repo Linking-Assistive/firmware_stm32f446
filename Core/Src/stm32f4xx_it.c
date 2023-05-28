@@ -24,6 +24,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "SEGGER_SYSVIEW.h"
+#include "sound_localization.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
