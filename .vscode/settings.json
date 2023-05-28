@@ -8,6 +8,9 @@
     "stdlib.h": "c",
     "stm32f4xx_hal_conf.h": "c",
     "stm32f4xx.h": "c",
-    "sound_localization.h": "c"
+    "sound_localization.h": "c",
+    "arm_math.h": "c",
+    "segger_sysview_confdefaults.h": "c",
+    "segger.h": "c"
   }
 }

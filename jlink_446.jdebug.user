@@ -1,41 +1,50 @@
 
 
-Breakpoint=/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/audio_sample.c:35:1, State=BP_STATE_DISABLED
-GraphedExpression="LR_data[0]", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#e56a6f
-GraphedExpression="LR_data[1]", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#35792b
-GraphedExpression="estimatedAngle", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#769dda
-OpenDocument="stm32f4xx_hal.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c", Line=374
-OpenDocument="sound_localization.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/sound_localization.c", Line=0
+Breakpoint=/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/audio_sample.c:38:3, State=BP_STATE_DISABLED
+Breakpoint=/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/sound_localization.c:103, State=BP_STATE_ON
+GraphedExpression="estimatedAngle", Color=#e56a6f
+GraphedExpression="is_otherReceived", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#35792b
+GraphedExpression="LMR_data[0]", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#769dda
+GraphedExpression="LMR_data[1]", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#b14f0d
+GraphedExpression="LMR_data[2]", DisplayFormat=DISPLAY_FORMAT_DEC, Color=#b3c38e
+GraphedExpression="angle", Color=#ab7b05
+OpenDocument="stm32f4xx_hal.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c", Line=391
+OpenDocument="audio_sample.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/audio_sample.c", Line=39
+OpenDocument="sound_localization.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/sound_localization.c", Line=116
 OpenDocument="stm32f4xx_it.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/stm32f4xx_it.c", Line=197
-OpenDocument="startup_stm32f446xx.s", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/startup_stm32f446xx.s", Line=47
+OpenDocument="startup_stm32f446xx.s", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/startup_stm32f446xx.s", Line=52
 OpenDocument="stm32f4xx_hal_i2s.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c", Line=1851
-OpenDocument="audio_sample.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/audio_sample.c", Line=0
-OpenDocument="main.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/main.c", Line=58
+OpenDocument="core_cm4.h", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Drivers/CMSIS/Include/core_cm4.h", Line=0
+OpenDocument="main.c", FilePath="/home/boom/fyp/audio_firmware/stm32f446-audio/Core/Src/main.c", Line=62
 OpenToolbar="Debug", Floating=0, x=0, y=0
-OpenWindow="Call Stack", DockArea=RIGHT, x=0, y=1, w=953, h=166, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
-OpenWindow="Registers 1", DockArea=RIGHT, x=0, y=0, w=953, h=496, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, FilteredItems=[], RefreshRate=1
-OpenWindow="Source Files", DockArea=LEFT, x=0, y=2, w=725, h=209, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
-OpenWindow="Disassembly", DockArea=RIGHT, x=0, y=2, w=953, h=281, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
-OpenWindow="Break & Tracepoints", DockArea=LEFT, x=0, y=0, w=725, h=312, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, VectorCatchIndexMask=254
-OpenWindow="Watched Data 1", DockArea=LEFT, x=0, y=3, w=725, h=208, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
-OpenWindow="Functions", DockArea=LEFT, x=0, y=1, w=725, h=208, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
-OpenWindow="Data Sampling", DockArea=BOTTOM, x=0, y=0, w=902, h=727, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, VisibleTab=0, UniformSampleSpacing=0
-OpenWindow="Timeline", DockArea=BOTTOM, x=1, y=0, w=2068, h=727, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=1, DataPaneShown=1, PowerPaneShown=0, CodePaneShown=0, PinCursor="Cursor Movable", TimePerDiv="2 s / Div", TimeStampFormat="Time", DataGraphDrawAsPoints=0, DataGraphLegendShown=1, DataGraphUniformSampleSpacing=0, DataGraphLegendPosition="1414;0", DataGraphShowNamesAtCursor=0, PowerGraphDrawAsPoints=0, PowerGraphLegendShown=0, PowerGraphAvgFilterTime=Off, PowerGraphAvgFilterLen=Off, PowerGraphUniformSampleSpacing=0, PowerGraphLegendPosition="2453;0", CodeGraphLegendShown=0, CodeGraphLegendPosition="2478;0"
+OpenWindow="Call Stack", DockArea=RIGHT, x=0, y=0, w=781, h=922, TabPos=1, TopOfStack=0, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
+OpenWindow="Registers 1", DockArea=RIGHT, x=0, y=0, w=781, h=922, TabPos=3, TopOfStack=0, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, FilteredItems=[], RefreshRate=1
+OpenWindow="Source Files", DockArea=LEFT, x=0, y=1, w=725, h=226, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
+OpenWindow="Break & Tracepoints", DockArea=LEFT, x=0, y=0, w=725, h=344, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, VectorCatchIndexMask=254
+OpenWindow="Local Data", DockArea=RIGHT, x=0, y=0, w=781, h=922, TabPos=0, TopOfStack=1, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
+OpenWindow="Watched Data 1", DockArea=LEFT, x=0, y=2, w=725, h=371, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0
+OpenWindow="Code Profile", DockArea=RIGHT, x=0, y=0, w=781, h=922, TabPos=2, TopOfStack=0, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, GroupByFiles=0, SortRespectsFilters=0, ParentRelativeLoad=0
+OpenWindow="Data Sampling", DockArea=BOTTOM, x=0, y=0, w=858, h=675, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=0, VisibleTab=0, UniformSampleSpacing=0
+OpenWindow="Timeline", DockArea=BOTTOM, x=1, y=0, w=1968, h=675, FilterBarShown=0, TotalValueBarShown=0, ToolBarShown=1, DataPaneShown=1, PowerPaneShown=0, CodePaneShown=0, PinCursor="Cursor Movable", TimePerDiv="5 s / Div", TimeStampFormat="Time", DataGraphDrawAsPoints=0, DataGraphLegendShown=1, DataGraphUniformSampleSpacing=0, DataGraphLegendPosition="1314;0", DataGraphShowNamesAtCursor=0, PowerGraphDrawAsPoints=0, PowerGraphLegendShown=0, PowerGraphAvgFilterTime=Off, PowerGraphAvgFilterLen=Off, PowerGraphUniformSampleSpacing=0, PowerGraphLegendPosition="1773;0", CodeGraphLegendShown=0, CodeGraphLegendPosition="1798;0"
 SmartViewPlugin="", Page="", Toolbar="Hidden", Window="SmartView 1"
-TableHeader="Vector Catches", SortCol="", SortOrder="ASCENDING", VisibleCols=["";"Vector Catch";"Description"], ColWidths=[50;300;500]
-TableHeader="Break & Tracepoints", SortCol="", SortOrder="ASCENDING", VisibleCols=["";"Type";"Location";"Extras"], ColWidths=[100;100;350;175]
-TableHeader="Functions", SortCol="Name", SortOrder="ASCENDING", VisibleCols=["Name";"Address";"Size";"#Insts";"Source"], ColWidths=[2520;140;100;100;924]
+TableHeader="Code Profile", SortCol="File / Function", SortOrder="ASCENDING", VisibleCols=["File / Function";"Source Coverage";"Inst. Coverage";"Run Count";"Fetch Count";"Load"], ColWidths=[2720;212;251;140;156;125]
+TableHeader="Local Data", SortCol="Name", SortOrder="ASCENDING", VisibleCols=["Name";"Value";"Location";"Size";"Type";"Scope"], ColWidths=[154;182;182;100;364;100]
 TableHeader="Call Stack", SortCol="Function", SortOrder="ASCENDING", VisibleCols=["Function";"Stack Frame";"Source";"PC";"Return Address";"Stack Used"], ColWidths=[414;210;392;140;322;135]
-TableHeader="Source Files", SortCol="File", SortOrder="ASCENDING", VisibleCols=["File";"Status";"Size";"#Insts";"Path"], ColWidths=[428;126;100;100;1610]
-TableHeader="Power Sampling", SortCol="None", SortOrder="ASCENDING", VisibleCols=["Index";"Time";"Ch 0"], ColWidths=[100;100;100]
 TableHeader="Registers 1", SortCol="Name", SortOrder="ASCENDING", VisibleCols=["Name";"Value";"Description"], ColWidths=[196;196;546]
+TableHeader="Vector Catches", SortCol="", SortOrder="ASCENDING", VisibleCols=["";"Vector Catch";"Description"], ColWidths=[50;300;500]
+TableHeader="Break & Tracepoints", SortCol="", SortOrder="ASCENDING", VisibleCols=["";"Type";"Location";"Extras"], ColWidths=[100;100;350;952]
+TableHeader="Source Files", SortCol="File", SortOrder="ASCENDING", VisibleCols=["File";"Status";"Size";"#Insts";"Path"], ColWidths=[428;126;100;100;1610]
+TableHeader="Data Sampling Table", SortCol="None", SortOrder="ASCENDING", VisibleCols=["Index";"Time";" estimatedAngle";" is_otherReceived";" LMR_data[0]";" LMR_data[1]";" LMR_data[2]";" angle"], ColWidths=[100;100;100;100;100;100;100;100]
+TableHeader="Data Sampling Setup", SortCol="Expression", SortOrder="ASCENDING", VisibleCols=["Expression";"Type";"Value";"Min";"Max";"Average";"# Changes";"Min. Change";"Max. Change"], ColWidths=[144;196;154;100;100;210;141;196;168]
+TableHeader="Power Sampling", SortCol="None", SortOrder="ASCENDING", VisibleCols=["Index";"Time";"Ch 0"], ColWidths=[100;100;100]
 TableHeader="Watched Data 1", SortCol="Expression", SortOrder="ASCENDING", VisibleCols=["Expression";"Value";"Location";"Refresh"], ColWidths=[291;397;103;100]
 TableHeader="RegisterSelectionDialog", SortCol="None", SortOrder="ASCENDING", VisibleCols=[], ColWidths=[]
 TableHeader="TargetExceptionDialog", SortCol="Name", SortOrder="ASCENDING", VisibleCols=["Name";"Value";"Address";"Description"], ColWidths=[381;278;147;951]
-TableHeader="Data Sampling Table", SortCol="None", SortOrder="ASCENDING", VisibleCols=["Index";"Time";" LR_data[0]";" LR_data[1]";" estimatedAngle"], ColWidths=[100;100;100;100;100]
-TableHeader="Data Sampling Setup", SortCol="Expression", SortOrder="ASCENDING", VisibleCols=["Expression";"Type";"Value";"Min";"Max";"Average";"# Changes";"Min. Change";"Max. Change"], ColWidths=[144;100;100;100;100;168;141;161;168]
-WatchedExpression="LR_data", RefreshRate=1, Window=Watched Data 1
+WatchedExpression="LMR_data", Window=Watched Data 1
 WatchedExpression="dataBuffer_1", RefreshRate=5, Window=Watched Data 1
 WatchedExpression="dataBuffer", RefreshRate=5, Window=Watched Data 1
 WatchedExpression="estimatedAngle", RefreshRate=5, Window=Watched Data 1
-WatchedExpression="rawDataInBuffer", Window=Watched Data 1
+WatchedExpression="rawDataInBuffer_LR", RefreshRate=5, Window=Watched Data 1
+WatchedExpression="is_otherReceived", Window=Watched Data 1
+WatchedExpression="rawDataInBuffer_M", RefreshRate=5, Window=Watched Data 1
+WatchedExpression="angle", Window=Watched Data 1

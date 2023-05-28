@@ -1,8 +1,10 @@
 #include "sound_localization.h"
 
+#include <arm_math.h>
 #include <stdlib.h>
 
 #include "acoustic_sl.h"
+#include "audio_sample.h"
 #include "main.h"
 
 /*Handler and Config structure for Source Localization*/
@@ -73,4 +75,72 @@ void SL_Process_callback(void)
   //     estimatedAngle += 360;
   //   }
   // }
+}
+
+float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, size_t dataSize)
+{
+  int32_t tau, k;
+  volatile int32_t delta_t13 = 0;
+
+  int64_t correlation = 0;
+  int64_t MAX13 = 0;
+
+  float32_t angle = 0.0;
+
+  float32_t distance = ACOUSTIC_SL_M12_DISTANCE / 10000.0f;
+  int32_t M12_TAUD = (int32_t)(distance * (float32_t)AUDIO_IN_SAMPLING_FREQUENCY / (float32_t)343.1f);
+
+  volatile int64_t history[15];
+
+  // MAX13 = 0x80000000U;  //-inf
+  for (tau = -M12_TAUD; tau <= M12_TAUD; tau++) {
+    correlation = 0;
+    for (k = M12_TAUD; k < dataSize - M12_TAUD; k++) {
+      correlation += (int32_t)M2_data[k] * (int32_t)M1_data[k + tau];
+    }
+    history[tau + M12_TAUD] = correlation;
+    if (correlation > MAX13) {
+      MAX13 = correlation;
+      delta_t13 = tau;
+    }
+  }
+
+  // if (SLocInternal->Mic_Number == 4U) {
+  //   MAX24 = 0x80000000U;  //-inf
+  //   for (tau = -SLocInternal->M34_TAUD; tau <= SLocInternal->M34_TAUD; tau++) {
+  //     correlation = 0;
+  //     for (k = SLocInternal->M34_TAUD; k < ((int32_t)SLocInternal->Sample_Number_To_Process -
+  //     SLocInternal->M34_TAUD);
+  //          k++) {
+  //       correlation =
+  //           correlation + (((uint32_t)((int16_t*)(SLocInternal->M4_Data))[((SLocInternal->Buffer_State - 1U) *
+  //                                                                          SLocInternal->Sample_Number_To_Process) +
+  //                                                                         (uint32_t)k] *
+  //                           (uint32_t)((int16_t*)(SLocInternal->M3_Data))[((SLocInternal->Buffer_State - 1U) *
+  //                                                                          SLocInternal->Sample_Number_To_Process) +
+  //                                                                         (uint32_t)k + (uint32_t)tau]) /
+  //                          256U);
+  //     }
+  //     if (correlation > MAX24) {
+  //       MAX24 = correlation;
+  //       delta_t24 = (float32_t)tau;
+  //     }
+  //   }
+  // }
+
+  angle = (float32_t)(delta_t13 + M12_TAUD) * 90.0f / (float32_t)M12_TAUD;
+
+  // if (SLocInternal->Mic_Number == 2U) {
+  //   test = (delta_t13 + (float32_t)SLocInternal->M12_TAUD) * (180.0f / ((float32_t)SLocInternal->M12_TAUD * 2.0f));
+  // } else if (SLocInternal->Mic_Number == 4U) {
+  //   test = (float32_t)atan2(delta_t13, delta_t24);
+  //   test = test * (360.0f / (3.14f * 2.0f));
+  //   if (test < 0.0f) {
+  //     test += 360.0f; /* in [0 360] -> TODO: Optimize the whole angle computation from the maximum phase index*/
+  //   }
+  // } else {
+  //   /* no other use cases are handled */
+  // }
+
+  return angle;
 }

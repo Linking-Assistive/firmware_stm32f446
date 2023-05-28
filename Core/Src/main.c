@@ -28,8 +28,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "SEGGER_SYSVIEW.h"
 #include "audio_sample.h"
 #include "sound_localization.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,6 +92,7 @@ int main(void)
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  SEGGER_SYSVIEW_Conf();
 
   /* USER CODE END SysInit */
 
