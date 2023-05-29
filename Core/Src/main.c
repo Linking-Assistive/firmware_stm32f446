@@ -30,6 +30,7 @@
 /* USER CODE BEGIN Includes */
 #include "SEGGER_SYSVIEW.h"
 #include "audio_sample.h"
+#include "message_controller.h"
 #include "sound_localization.h"
 
 /* USER CODE END Includes */
@@ -111,6 +112,7 @@ int main(void)
 
   SL_Init();
   audioStartRecord_DMA();
+  message_controller_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

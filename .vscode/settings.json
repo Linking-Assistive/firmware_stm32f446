@@ -15,6 +15,10 @@
     "acoustic_sl.h": "c",
     "usbd_audio_in.h": "c",
     "segger_sysview.h": "c",
-    "usb_device.h": "c"
+    "usb_device.h": "c",
+    "gpio.h": "c",
+    "tim.h": "c",
+    "dma.h": "c",
+    "message_controller.h": "c"
   }
 }
