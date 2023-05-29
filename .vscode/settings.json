@@ -12,6 +12,7 @@
     "arm_math.h": "c",
     "segger_sysview_confdefaults.h": "c",
     "segger.h": "c",
-    "acoustic_sl.h": "c"
+    "acoustic_sl.h": "c",
+    "usbd_audio_in.h": "c"
   }
 }

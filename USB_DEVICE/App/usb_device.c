@@ -22,12 +22,13 @@
 
 #include "usb_device.h"
 
-#include "usbd_audio.h"
 #include "usbd_audio_if.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
 
 /* USER CODE BEGIN Includes */
+#include "audio_sample.h"
+#include "usbd_audio_in.h"
 
 /* USER CODE END Includes */
 
@@ -65,6 +66,7 @@ USBD_HandleTypeDef hUsbDeviceFS;
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
+  USBD_AUDIO_Init_Microphone_Descriptor(&hUsbDeviceFS, AUDIO_IN_SAMPLING_FREQUENCY, 1);
 
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
