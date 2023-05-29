@@ -152,10 +152,8 @@ static void AUDIO_Stop()
  */
 void Send_Audio_to_USB(int16_t* audioData, uint16_t PCMSamples)
 {
-  if (is_running) {
-    if (USBD_FAIL == USBD_AUDIO_Data_Transfer(&hUsbDeviceFS, (int16_t*)audioData, PCMSamples)) {
-      Error_Handler();
-    }
+  if (USBD_FAIL == USBD_AUDIO_Data_Transfer(&hUsbDeviceFS, (int16_t*)audioData, PCMSamples)) {
+    Error_Handler();
   }
 }
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
