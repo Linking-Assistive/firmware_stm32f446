@@ -68,8 +68,11 @@ void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef* hi2s)
     dataProcessSeparatedChannel(rawDataInBuffer_LR, aPCM_L, aPCM_R);
     dataProcessSeparatedChannel(rawDataInBuffer_M, aPCM_M, NULL);
 
-    angle = SL_XCORR_GetAngle(aPCM_L, aPCM_M, aPCM_R, AUDIO_SAMPLE_PER_PACKET);
-    smoothedAngle = smoothedAngle - (LPF_Beta * (smoothedAngle - angle));
+    float tmp = SL_XCORR_GetAngle(aPCM_L, aPCM_M, aPCM_R, AUDIO_SAMPLE_PER_PACKET);
+    if (tmp > 0.0f) {
+      angle = tmp;
+      smoothedAngle = smoothedAngle - (LPF_Beta * (smoothedAngle - angle));
+    }
 
     LMR_data[0] = aPCM_L[0];
     LMR_data[1] = aPCM_M[0];
@@ -87,8 +90,11 @@ void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef* hi2s)
     dataProcessSeparatedChannel(&rawDataInBuffer_LR[AUDIO_SAMPLE_PER_PACKET * 4], aPCM_L, aPCM_R);
     dataProcessSeparatedChannel(&rawDataInBuffer_M[AUDIO_SAMPLE_PER_PACKET * 4], aPCM_M, NULL);
 
-    angle = SL_XCORR_GetAngle(aPCM_L, aPCM_M, aPCM_R, AUDIO_SAMPLE_PER_PACKET);
-    smoothedAngle = smoothedAngle - (LPF_Beta * (smoothedAngle - angle));
+    float tmp = SL_XCORR_GetAngle(aPCM_L, aPCM_M, aPCM_R, AUDIO_SAMPLE_PER_PACKET);
+    if (tmp > 0.0f) {
+      angle = tmp;
+      smoothedAngle = smoothedAngle - (LPF_Beta * (smoothedAngle - angle));
+    }
 
     LMR_data[0] = aPCM_L[0];
     LMR_data[1] = aPCM_M[0];

@@ -101,6 +101,8 @@ static float wrap_angle(float angle)
 }
 
 float32_t angle_12, angle_23, angle_31;
+int8_t configuration[3] = {0, 0, 0};
+
 float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, int16_t* M3_data, size_t dataSize)
 {
   int32_t tau, k;
@@ -163,40 +165,60 @@ float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, int16_t* M3_data
 
   float MIN_DISAGREEMENT = 10000000;
   float disagreement = 0;
-  int8_t configuration[3] = {0, 0, 0};
 
   for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 2; j++) {
-      for (int k = 0; k < 2; k++) {
-        disagreement = smallest_angular_distance(D12[i], D23[j]) + smallest_angular_distance(D23[j], D31[k]) +
-                       smallest_angular_distance(D31[k], D12[i]);
-        if (disagreement < MIN_DISAGREEMENT) {
-          MIN_DISAGREEMENT = disagreement;
+      disagreement = smallest_angular_distance(D12[i], D23[j]);
+      if (disagreement < MIN_DISAGREEMENT) {
+        MIN_DISAGREEMENT = disagreement;
 
-          configuration[0] = i;
-          configuration[1] = j;
-          configuration[2] = k;
-        }
+        configuration[0] = i;
+        configuration[1] = j;
       }
     }
   }
 
-  int8_t select = 0;
-  float MAX_DEVIATION = 0;
-  float deviation = 0;
-  float L[] = {angle_12, angle_23, angle_31};
-  float D[] = {D12[configuration[0]], D23[configuration[1]], D31[configuration[2]]};
+  // int8_t select = 0;
+  // float MIN_DEVIATION = 1000000000;
+  // float deviation = 0;
+  // float L[] = {angle_12, angle_23, angle_31};
+  // float D[] = {D12[configuration[0]], D23[configuration[1]], D31[configuration[2]]};
 
-  for (int i = 0; i < 3; i++) {
-    if (configuration[i] == 0) {
-      deviation = smallest_angular_distance(L[i], 90.0f);
+  // for (int i = 0; i < 3; i++) {
+  //   if (configuration[i] == 0) {
+  //     deviation = smallest_angular_distance(L[i], 90.0f);
 
-      if (deviation > MAX_DEVIATION) {
-        MAX_DEVIATION = deviation;
-        select = i;
-      }
-    }
+  //     if (deviation < MIN_DEVIATION) {
+  //       MIN_DEVIATION = deviation;
+  //       select = i;
+  //     }  // int8_t select = 0;
+  // float MIN_DEVIATION = 1000000000;
+  // float deviation = 0;
+  // float L[] = {angle_12, angle_23, angle_31};
+  // float D[] = {D12[configuration[0]], D23[configuration[1]], D31[configuration[2]]};
+
+  // for (int i = 0; i < 3; i++) {
+  //   if (configuration[i] == 0) {
+  //     deviation = smallest_angular_distance(L[i], 90.0f);
+
+  //     if (deviation < MIN_DEVIATION) {
+  //       MIN_DEVIATION = deviation;
+  //       select = i;
+  //     }
+  //   }
+  // }
+  //   }
+  // }
+
+  if (configuration[0] == 0 && configuration[1] == 0) {
+    return D12[0];
+  } else if (configuration[0] == 0 && configuration[1] == 1) {
+    return D12[0];
+  } else if (configuration[0] == 1 && configuration[1] == 0) {
+    return D23[0];
+  } else if (configuration[0] == 1 && configuration[1] == 1) {
+    return -1;
   }
 
-  return wrap_angle(D[select]);
+  // return wrap_angle(D[select]);
 }
