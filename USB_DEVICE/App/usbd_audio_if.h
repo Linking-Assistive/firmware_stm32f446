@@ -103,7 +103,7 @@ extern USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS;
  */
 
 /* USER CODE BEGIN EXPORTED_FUNCTIONS */
-
+void Send_Audio_to_USB(int16_t* audioData, uint16_t PCMSamples);
 /* USER CODE END EXPORTED_FUNCTIONS */
 
 /**

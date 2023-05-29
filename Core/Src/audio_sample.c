@@ -3,7 +3,7 @@
 #include "i2s.h"
 #include "main.h"
 #include "sound_localization.h"
-#include "usb_device.h"
+#include "usbd_audio_if.h"
 
 //
 #include "SEGGER_SYSVIEW.h"

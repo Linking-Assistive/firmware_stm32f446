@@ -313,6 +313,8 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
     // If the state is STATE_USB_IDLE, start recording
     if (haudio->state == STATE_USB_IDLE) {
       haudio->state = STATE_USB_REQUESTS_STARTED;
+      ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->Record();
+      USBD_LL_Transmit(pdev, AUDIO_IN_EP, IsocInBuffDummy, length_usb_pck);
     }
     // If the state is STATE_USB_BUFFER_WRITE_STARTED, start transmitting the audio data
     else if (haudio->state == STATE_USB_BUFFER_WRITE_STARTED) {
@@ -335,6 +337,7 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
 
       // If the buffer is almost empty, stop recording and reset the state and buffer
       if (app < haudio->buffer_length / 10) {
+        ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->Stop();
         haudio->state = STATE_USB_IDLE;
         haudio->timeout = 0;
         memset(haudio->buffer, 0, (haudio->buffer_length + haudio->dataAmount));
@@ -345,6 +348,7 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
       USBD_LL_Transmit(pdev, AUDIO_IN_EP, IsocInBuffDummy, length_usb_pck);
     }
   }
+
   return USBD_OK;
 }
 

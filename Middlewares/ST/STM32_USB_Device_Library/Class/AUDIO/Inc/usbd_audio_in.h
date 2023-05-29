@@ -140,15 +140,8 @@ typedef struct {
 } USBD_AUDIO_HandleTypeDef;
 
 typedef struct {
-  int8_t (*Init)(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr);
-  int8_t (*DeInit)(uint32_t options);
-  int8_t (*Record)(void);
-  int8_t (*VolumeCtl)(int16_t Volume);
-  int8_t (*MuteCtl)(uint8_t cmd);
-  int8_t (*Stop)(void);
-  int8_t (*Pause)(void);
-  int8_t (*Resume)(void);
-  int8_t (*CommandMgr)(uint8_t cmd);
+  void (*Record)(void);
+  void (*Stop)(void);
 } USBD_AUDIO_ItfTypeDef;
 /**
  * @}
