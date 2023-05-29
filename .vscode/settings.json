@@ -13,6 +13,8 @@
     "segger_sysview_confdefaults.h": "c",
     "segger.h": "c",
     "acoustic_sl.h": "c",
-    "usbd_audio_in.h": "c"
+    "usbd_audio_in.h": "c",
+    "segger_sysview.h": "c",
+    "usb_device.h": "c"
   }
 }

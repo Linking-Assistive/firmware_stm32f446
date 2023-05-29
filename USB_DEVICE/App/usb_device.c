@@ -57,6 +57,23 @@ USBD_HandleTypeDef hUsbDeviceFS;
  */
 /* USER CODE BEGIN 1 */
 
+/**
+ * @brief  Fills USB audio buffer with the right amount of data, depending on the
+ *     channel/frequency configuration
+ * @param  audioData: pointer to the PCM audio data
+ * @param  PCMSamples: number of PCM samples to be passed to USB engine
+ * @note Depending on the calling frequency, a coherent amount of samples must be passed to
+ *       the function. E.g.: assuming a Sampling frequency of 16 KHz and 1 channel,
+ *       you can pass 16 PCM samples if the function is called each millisecond,
+ *       32 samples if called every 2 milliseconds and so on.
+ */
+void Send_Audio_to_USB(int16_t* audioData, uint16_t PCMSamples)
+{
+  if (USBD_FAIL == USBD_AUDIO_Data_Transfer(&hUsbDeviceFS, (int16_t*)audioData, PCMSamples)) {
+    Error_Handler();
+  }
+}
+
 /* USER CODE END 1 */
 
 /**

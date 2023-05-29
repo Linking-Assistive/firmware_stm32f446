@@ -194,7 +194,6 @@ static uint8_t USBD_AUDIO_DeInit(USBD_HandleTypeDef* pdev, uint8_t cfgidx)
   USBD_LL_CloseEP(pdev, AUDIO_IN_EP);
   /* DeInit  physical Interface components */
   if (pdev->pClassData != NULL) {
-    ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->DeInit(0);
     haudioInstance.state = STATE_USB_WAITING_FOR_INIT;
   }
   return USBD_OK;
@@ -297,7 +296,7 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
 {
   // Declare and initialize necessary variables
   USBD_AUDIO_HandleTypeDef* haudio;
-  haudio = pdev->pClassData;  // Retrieve the audio handle from USB device handle
+  haudio = pdev->pClassData;
   uint32_t length_usb_pck;
   uint16_t app;
   uint16_t IsocInWr_app = haudio->wr_ptr;        // Get the current write pointer
@@ -314,9 +313,8 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
     // If the state is STATE_USB_IDLE, start recording
     if (haudio->state == STATE_USB_IDLE) {
       haudio->state = STATE_USB_REQUESTS_STARTED;
-      ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->Record();
     }
-    // If thestate is STATE_USB_BUFFER_WRITE_STARTED, start transmitting the audio data
+    // If the state is STATE_USB_BUFFER_WRITE_STARTED, start transmitting the audio data
     else if (haudio->state == STATE_USB_BUFFER_WRITE_STARTED) {
       // Calculate the available space in the buffer
       haudio->rd_ptr = haudio->rd_ptr % (true_dim);
@@ -337,7 +335,6 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef* pdev, uint8_t epnum)
 
       // If the buffer is almost empty, stop recording and reset the state and buffer
       if (app < haudio->buffer_length / 10) {
-        ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->Stop();
         haudio->state = STATE_USB_IDLE;
         haudio->timeout = 0;
         memset(haudio->buffer, 0, (haudio->buffer_length + haudio->dataAmount));
@@ -364,8 +361,6 @@ static uint8_t USBD_AUDIO_EP0_RxReady(USBD_HandleTypeDef* pdev)
   haudio = pdev->pClassData;
   if (haudio->control.cmd == AUDIO_REQ_SET_CUR) {
     if (haudio->control.unit == AUDIO_OUT_STREAMING_CTRL) {
-      ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->VolumeCtl(VOL_CUR);
-
       haudio->control.cmd = 0;
       haudio->control.len = 0;
       haudio->control.unit = 0;
@@ -546,7 +541,7 @@ static void AUDIO_REQ_SetCurrent(USBD_HandleTypeDef* pdev, USBD_SetupReqTypedef*
  *         Fills the USB internal buffer with audio data from user
  * @param pdev: device instance
  * @param audioData: audio data to be sent via USB
- * @param dataAmount: number of PCM samples to be copyed
+ * @param dataAmount: number of PCM samples to be copied
  * @note Depending on the calling frequency, a coherent amount of samples must be passed to
  *       the function. E.g.: assuming a Sampling frequency of 16 KHz and 1 channel,
  *       you can pass 16 PCM samples if the function is called each millisecond,
@@ -590,7 +585,6 @@ uint8_t USBD_AUDIO_Data_Transfer(USBD_HandleTypeDef* pdev, int16_t* audioData, u
   } else if (haudio->state == STATE_USB_BUFFER_WRITE_STARTED) {
     if (haudio->timeout++ == TIMEOUT_VALUE) {
       haudio->state = STATE_USB_IDLE;
-      ((USBD_AUDIO_ItfTypeDef*)pdev->pUserData[pdev->classId])->Stop();
       haudio->timeout = 0;
     }
     memcpy((uint8_t*)&haudio->buffer[haudio->wr_ptr], (uint8_t*)(audioData), dataAmount);

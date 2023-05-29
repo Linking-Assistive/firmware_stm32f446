@@ -89,7 +89,7 @@ static float smallest_angular_distance(float angle1, float angle2)
 }
 
 // wrap angle to [0, 360]
-static float wrap_angle(float angle)
+__attribute__((unused)) static float wrap_angle(float angle)
 {
   if (angle < 0.0f) {
     angle += 360.0f;
@@ -216,7 +216,7 @@ float32_t SL_XCORR_GetAngle(int16_t* M1_data, int16_t* M2_data, int16_t* M3_data
     return D12[0];
   } else if (configuration[0] == 1 && configuration[1] == 0) {
     return D23[0];
-  } else if (configuration[0] == 1 && configuration[1] == 1) {
+  } else {
     return -1;
   }
 

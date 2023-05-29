@@ -81,7 +81,7 @@ void MX_USB_DEVICE_Init(void);
  * -- Insert functions declaration here --
  */
 /* USER CODE BEGIN FD */
-
+void Send_Audio_to_USB(int16_t* audioData, uint16_t PCMSamples);
 /* USER CODE END FD */
 /**
  * @}
