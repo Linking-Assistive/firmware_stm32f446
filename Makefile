@@ -51,6 +51,7 @@ Core/Src/audio_sample.c \
 Core/Src/sound_localization.c \
 Core/Src/message_controller.c \
 Core/Src/vibration_motor.c \
+Core/Src/led.c \
 SEGGER/SEGGER_RTT.c \
 SEGGER/SEGGER_SYSVIEW.c \
 SEGGER/SEGGER_SYSVIEW_Config_NoOS.c \

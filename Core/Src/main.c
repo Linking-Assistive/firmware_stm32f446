@@ -95,7 +95,7 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   SEGGER_SYSVIEW_Conf();
-
+  SEGGER_SYSVIEW_NameMarker(1, "Motor_L");
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -111,7 +111,6 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-  SL_Init();
   audioStartRecord_DMA();
   message_controller_init();
   /* USER CODE END 2 */
@@ -122,6 +121,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    led_loop();
     vibration_motor_loop();
   }
   /* USER CODE END 3 */
