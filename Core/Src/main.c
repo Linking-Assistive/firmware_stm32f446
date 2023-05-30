@@ -32,6 +32,7 @@
 #include "audio_sample.h"
 #include "message_controller.h"
 #include "sound_localization.h"
+#include "vibration_motor.h"
 
 /* USER CODE END Includes */
 
@@ -121,8 +122,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-    HAL_Delay(500);
+    vibration_motor_loop();
   }
   /* USER CODE END 3 */
 }
